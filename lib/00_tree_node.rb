@@ -11,13 +11,12 @@ class PolyTreeNode
 
   def parent=(node)
     @parent.children.delete(self) unless @parent == nil
-    node.children << self unless node.nil? || node.children.include?(self)
+    node.children << self unless node.nil?
     @parent = node
   end
 
   def add_child(node)
     return if node == nil
-    @children << node
     node.parent = self
   end
 
@@ -36,20 +35,16 @@ class PolyTreeNode
       break if result
     end
 
-    return result
+    result
   end
 
   def bfs(target_value)
-    # debugger
     queue = [self]
 
     until queue.empty?
       cur_node = queue.shift
       return cur_node if cur_node.value == target_value
-      cur_node.children.each do |child|
-        queue << child
-
-      end
+      queue += cur_node.children
     end
 
     nil
